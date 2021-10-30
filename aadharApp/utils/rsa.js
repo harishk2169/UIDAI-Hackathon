@@ -7,7 +7,7 @@ var object = {
 const key = new NodeRSA({ b: 1024 });
 const text = object.address;
 
-function cryptedAddress(key, text) {
+const cryptedAddress=(key, text)=> {
   // a second method of encrypting and decrypting from the key class
 
   // const encrypted = key.encrypt(text, "base64"); // encrypted address  of the sender
@@ -38,3 +38,5 @@ function cryptedAddress(key, text) {
 }
 
 cryptedAddress(key, text);
+
+export default cryptedAddress;
