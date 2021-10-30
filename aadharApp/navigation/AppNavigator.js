@@ -1,4 +1,5 @@
 import React from 'react';
+import FlashMessage from 'react-native-flash-message';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -18,6 +19,7 @@ const AppNavigator = () => {
           options={{headerShown: false}}
         />
       </Stack.Navigator>
+      <FlashMessage position="bottom" style={{elevation: 10}} />
     </NavigationContainer>
   );
 };
