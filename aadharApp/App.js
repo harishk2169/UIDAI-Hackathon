@@ -8,6 +8,7 @@
 
 import React from 'react';
 import AppNavigator from './navigation/AppNavigator';
+import Push from './components/Push';
 
 const App = () => {
   return <AppNavigator />;
