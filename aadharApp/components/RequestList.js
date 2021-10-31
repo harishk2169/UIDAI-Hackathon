@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
 import {
   View,
-  Text,
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
@@ -10,36 +10,36 @@ import {
 import {Badge, ListItem, Avatar} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const data = [
-  {
-    address: 'wfgdd439w0epodedjnkvf',
-    finalAddress: 'hdmmfdakjas',
-    recipient: '54612298123',
-    sender: '43567890',
-    status: 0,
-  },
-  {
-    address: 'wfgdd439w0epodedjnkvf',
-    finalAddress: 'hdmmfdakjas',
-    recipient: '98772789032',
-    sender: '43567890',
-    status: 0,
-  },
-  {
-    address: 'wfgdd439w0epodedjnkvf',
-    finalAddress: 'hdmmfdakjas',
-    recipient: '43512789032',
-    sender: '43567890',
-    status: 1,
-  },
-  {
-    address: 'wfgdd439w0epodedjnkvf',
-    finalAddress: 'hdmmfdakjas',
-    recipient: '745412789032',
-    sender: '43567890',
-    status: 2,
-  },
-];
+// const data = [
+//   {
+//     address: 'wfgdd439w0epodedjnkvf',
+//     finalAddress: 'hdmmfdakjas',
+//     recipient: '54612298123',
+//     sender: '43567890',
+//     status: 0,
+//   },
+//   {
+//     address: 'wfgdd439w0epodedjnkvf',
+//     finalAddress: 'hdmmfdakjas',
+//     recipient: '98772789032',
+//     sender: '43567890',
+//     status: 0,
+//   },
+//   {
+//     address: 'wfgdd439w0epodedjnkvf',
+//     finalAddress: 'hdmmfdakjas',
+//     recipient: '43512789032',
+//     sender: '43567890',
+//     status: 1,
+//   },
+//   {
+//     address: 'wfgdd439w0epodedjnkvf',
+//     finalAddress: 'hdmmfdakjas',
+//     recipient: '745412789032',
+//     sender: '43567890',
+//     status: 2,
+//   },
+// ];
 
 const getStatus = code => {
   if (code == 0) return 'Pending';
@@ -48,10 +48,24 @@ const getStatus = code => {
 };
 
 const RequestList = ({navigation}) => {
+  const [requests, setRequests] = useState([]);
+  const getData = async () => {
+    const reqs = await firestore()
+      .collection('requests')
+      .where('sender', '==', '999909223753')
+      .get();
+    reqs.docs.forEach(item => {
+      setRequests([...requests, item.data()]);
+    });
+  };
+  useEffect(() => {
+    getData();
+    console.log(requests);
+  }, []);
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
-        {data.map((req, idx) => (
+        {requests.map((req, idx) => (
           <TouchableOpacity
             key={idx}
             style={styles.listItem}
