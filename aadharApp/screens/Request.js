@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {Button} from 'react-native-elements';
 import RequestList from '../components/RequestList';
+import ForeGroundNotify from '../components/Foreground';
 
 const Request = props => {
   return (
@@ -15,6 +16,7 @@ const Request = props => {
           onPress={alert('Address Update Request Screen')}
         />
       </View>
+      <ForeGroundNotify />
     </View>
   );
 };
