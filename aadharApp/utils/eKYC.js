@@ -3,13 +3,13 @@ const axios = require('axios');
 const xmlToJSON = require('xml-js');
 
 const eKYC = async () => {
-  const txnID = '814ec078-7ef9-4afe-aa68-35d5b935b716';
+  const txnID = 'c73c196b-b4b7-441f-88e3-33613d1602d0';
   const resp = await axios.post(
     'https://stage1.uidai.gov.in/onlineekyc/getEkyc/',
 
     {
-      uid: '999991682487',
-      otp: '810508',
+      uid: '999909223753',
+      otp: '980320',
       txnId: txnID,
     },
     {
