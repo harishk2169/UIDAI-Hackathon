@@ -1,12 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {Input, Button} from 'react-native-elements';
+import * as Keychain from 'react-native-keychain';
 import generateOTP from '../utils/generateOTP';
 import isRegistered from '../utils/isRegistered';
 import auth from '../utils/auth';
 import {showMessage} from 'react-native-flash-message';
 
 const Login = props => {
+  useEffect(() => {
+    const checkAuth = async () => {
+      const credentials = await Keychain.getGenericPassword();
+      if (credentials) {
+        const alreadyRegistered = await isRegistered(credentials.username);
+        if (alreadyRegistered) props.navigation.replace('Home');
+      }
+    };
+    checkAuth();
+  }, []);
   const [uid, setUID] = useState();
   const [OTP, setOTP] = useState();
   const [txnID, setTxnID] = useState();
