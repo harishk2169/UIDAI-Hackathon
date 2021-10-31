@@ -6,8 +6,9 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  Text,
 } from 'react-native';
-import {Badge, ListItem, Avatar} from 'react-native-elements';
+import {Badge, ListItem, Avatar, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // const data = [
@@ -62,6 +63,11 @@ const RequestList = ({navigation}) => {
     getData();
     console.log(requests);
   }, []);
+  const [visible, setVisible] = useState(false);
+  const [curReq, setCurReq] = useState();
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
@@ -69,7 +75,10 @@ const RequestList = ({navigation}) => {
           <TouchableOpacity
             key={idx}
             style={styles.listItem}
-            onPress={() => alert('This will show request')}>
+            onPress={() => {
+              setVisible(!visible);
+              setCurReq(req);
+            }}>
             <ListItem bottomDivider>
               <View>
                 <Avatar
@@ -98,6 +107,21 @@ const RequestList = ({navigation}) => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+        {curReq ? (
+          <View style={{width: 300, height: 120, padding: 10}}>
+            <Text style={{fontSize: 20, marginBottom: 10}}>
+              Sender UID : {curReq.sender}
+            </Text>
+            <Text style={{fontSize: 20, marginBottom: 10}}>
+              New Address : {curReq.finalAddress}
+            </Text>
+            <Text style={{fontSize: 20, marginBottom: 10}}>
+              Status : {getStatus(curReq.status)}
+            </Text>
+          </View>
+        ) : null}
+      </Overlay>
     </SafeAreaView>
   );
 };

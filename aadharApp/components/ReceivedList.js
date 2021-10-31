@@ -6,8 +6,10 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  Text,
 } from 'react-native';
-import {Badge, ListItem, Avatar} from 'react-native-elements';
+import {Button} from 'react-native-elements';
+import {Badge, ListItem, Avatar, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // const data = [
@@ -40,6 +42,36 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 //     status: 2,
 //   },
 // ];
+const data = [
+  {
+    address: 'wfgdd439w0epodedjnkvf',
+    finalAddress: 'hdmmfdakjas',
+    recipient: '54612298123',
+    sender: '43567890',
+    status: 0,
+  },
+  {
+    address: 'wfgdd439w0epodedjnkvf',
+    finalAddress: 'hdmmfdakjas',
+    recipient: '98772789032',
+    sender: '43567890',
+    status: 0,
+  },
+  {
+    address: 'wfgdd439w0epodedjnkvf',
+    finalAddress: 'hdmmfdakjas',
+    recipient: '43512789032',
+    sender: '43567890',
+    status: 1,
+  },
+  {
+    address: 'wfgdd439w0epodedjnkvf',
+    finalAddress: 'hdmmfdakjas',
+    recipient: '745412789032',
+    sender: '43567290',
+    status: 2,
+  },
+];
 
 const getStatus = code => {
   if (code == 0) return 'Pending';
@@ -62,6 +94,13 @@ const ReceivedList = ({navigation}) => {
     getData();
     console.log(requests);
   }, []);
+  const [visible, setVisible] = useState(false);
+  const [curReq, setCurReq] = useState();
+  const [idx, setCurIdx] = useState();
+  const toggleOverlay = () => {
+    setVisible(!visible);
+    setCurReq();
+  };
 
   return (
     <SafeAreaView>
@@ -70,7 +109,11 @@ const ReceivedList = ({navigation}) => {
           <TouchableOpacity
             key={idx}
             style={styles.listItem}
-            onPress={() => alert('This will show request')}>
+            onPress={() => {
+              setVisible(!visible);
+              setCurReq(req);
+              setCurIdx(idx);
+            }}>
             <ListItem bottomDivider>
               <View>
                 <Avatar
@@ -109,6 +152,43 @@ const ReceivedList = ({navigation}) => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+        {curReq ? (
+          <View style={{width: 300, height: 180, padding: 10}}>
+            <Text style={{fontSize: 20, marginBottom: 10}}>
+              Sender UID : {curReq.sender}
+            </Text>
+            <Text style={{fontSize: 20, marginBottom: 10}}>
+              New Address : {curReq.finalAddress}
+            </Text>
+            <Text style={{fontSize: 20, marginBottom: 10}}>
+              Status : {getStatus(curReq.status)}
+            </Text>
+            {curReq.status == 0 ? (
+              <View style={{flexDirection: 'row'}}>
+                <Button
+                  title="Accept"
+                  buttonStyle={{backgroundColor: 'green'}}
+                  onPress={() => {
+                    setCurReq(prev => {
+                      return {...prev, status: 1};
+                    });
+                  }}
+                />
+                <Button
+                  title="Reject"
+                  buttonStyle={{backgroundColor: 'red'}}
+                  onPress={() => {
+                    setCurReq(prev => {
+                      return {...prev, status: 2};
+                    });
+                  }}
+                />
+              </View>
+            ) : null}
+          </View>
+        ) : null}
+      </Overlay>
     </SafeAreaView>
   );
 };
