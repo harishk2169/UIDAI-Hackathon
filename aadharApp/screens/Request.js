@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 200,
+    backgroundColor: 'tomato',
   },
 });
 

@@ -6,6 +6,7 @@ import generateOTP from '../utils/generateOTP';
 import isRegistered from '../utils/isRegistered';
 import auth from '../utils/auth';
 import {showMessage} from 'react-native-flash-message';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Login = props => {
   useEffect(() => {
@@ -93,18 +94,22 @@ const Login = props => {
     }
   };
 
+  const idCard = (
+    <Icon name="id-card" type="font-awesome" color="black" size={30} />
+  );
+
   return (
     <View style={styles.screen}>
       <Input
         placeholder="Enter UID Here"
         label="UID"
+        leftIcon={idCard}
         disabled={showOTP}
         maxLength={12}
         onChangeText={val => {
           numParser(val);
         }}
         keyboardType="phone-pad"
-        leftIcon={{type: 'entypo', name: 'user'}}
       />
       {showOTP ? (
         <Input
