@@ -85,7 +85,7 @@ const ReceivedList = ({navigation}) => {
                   // }
                   source={{
                     uri: `https://randomuser.me/api/portraits/men/${
-                      40 + idx
+                      10 + idx
                     }.jpg`,
                   }}
                   size="medium"
