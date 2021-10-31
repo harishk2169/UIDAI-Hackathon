@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import TabNavigator from './TabNavigator';
 import Login from '../screens/Login';
+import GeneratePIN from '../screens/PINGenerate';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +14,7 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="PIN Generate" component={GeneratePIN} />
         <Stack.Screen
           name="Home"
           component={TabNavigator}
