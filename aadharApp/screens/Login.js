@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import generateOTP from '../utils/generateOTP';
+import isRegistered from '../utils/isRegistered';
 import auth from '../utils/auth';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -28,7 +29,6 @@ const Login = props => {
   };
 
   const SendOTP = async () => {
-    console.log(uid);
     try {
       if (uid.length < 12) {
         throw new Error('UID must be contain 12 digits');
@@ -61,10 +61,18 @@ const Login = props => {
       if (!resp) return reset();
       showMessage({
         message: 'Success',
-        description: 'OTP Sent',
+        description: 'OTP Verified',
         type: 'success',
       });
-      props.navigation.replace('Home');
+      const alreadyRegistered = await isRegistered(uid);
+      console.log('Already Registered', alreadyRegistered);
+      if (alreadyRegistered) {
+        props.navigation.replace('Home');
+        return;
+      }
+      props.navigation.replace('PIN Generate', {
+        UID: uid,
+      });
     } catch (err) {
       reset();
       showMessage({
