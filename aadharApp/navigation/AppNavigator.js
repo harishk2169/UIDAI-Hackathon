@@ -7,6 +7,7 @@ import TabNavigator from './TabNavigator';
 import Login from '../screens/Login';
 import GeneratePIN from '../screens/PINGenerate';
 import GetStarted from '../screens/GetStarted';
+import NewRequest from '../screens/NewRequest';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,11 @@ const AppNavigator = () => {
         <Stack.Screen name="Get Started" component={GetStarted} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="PIN Generate" component={GeneratePIN} />
+        <Stack.Screen
+          name="NewRequest"
+          component={NewRequest}
+          options={{title: 'New Request', headerTitleStyle: {color: 'tomato'}}}
+        />
         <Stack.Screen
           name="Home"
           component={TabNavigator}
