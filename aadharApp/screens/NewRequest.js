@@ -1,11 +1,42 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {Button, Icon} from 'react-native-elements';
+import firestore from '@react-native-firebase/firestore';
+
+import * as Keychain from 'react-native-keychain';
+import {showMessage} from 'react-native-flash-message';
 import Input from 'react-native-input-style';
 
-const NewRequest = () => {
+const NewRequest = props => {
   const [aadhar, setAadhar] = useState('');
   const [pin, setPin] = useState('');
+  const onSubmit = async () => {
+    try {
+      if (aadhar.length < 12 || pin.length < 6)
+        throw new Error('Input not formatted properly');
+      const credentials = await Keychain.getGenericPassword();
+      var doc = {
+        recipient: aadhar,
+        sender: credentials.username,
+        address: '',
+        finalAddress: '',
+        status: 0,
+      };
+      await firestore().collection('requests').add(doc);
+      showMessage({
+        message: 'Success',
+        description: 'Requested Address Successfully',
+        type: 'danger',
+      });
+      setTimeout(() => props.navigation.pop(), 5000);
+    } catch (err) {
+      showMessage({
+        message: 'Error',
+        description: err.message,
+        type: 'Success',
+      });
+    }
+  };
   return (
     <View style={styles.screen}>
       <Input
@@ -48,9 +79,7 @@ const NewRequest = () => {
           title="Send Request"
           raised
           buttonStyle={styles.button}
-          onPress={() => {
-            console.log('clicked');
-          }}
+          onPress={onSubmit}
         />
       </View>
     </View>

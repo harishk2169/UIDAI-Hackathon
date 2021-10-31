@@ -6,6 +6,7 @@ import * as Keychain from 'react-native-keychain';
 import {View, StyleSheet, Text} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import firestore from '@react-native-firebase/firestore';
+import messaging from '@react-native-firebase/messaging';
 import {showMessage} from 'react-native-flash-message';
 
 const GeneratePIN = props => {
@@ -39,7 +40,7 @@ const GeneratePIN = props => {
       rsa.generate(bits, exponent);
       var publicKey = JSON.stringify(rsa.getPublicString()); // return json encoded string
       var privateKey = JSON.stringify(rsa.getPrivateString()); // return json encoded string
-
+      const tokenData = await messaging().getToken();
       console.log('PK', publicKey);
       console.log('SK', privateKey);
 
@@ -56,7 +57,7 @@ const GeneratePIN = props => {
       await firestore().collection('users').doc(UID).set({
         pK: publicKey,
         sK: encryptedSK,
-        token: '',
+        token: tokenData,
       });
 
       //   Private is stored on the device in secure storage
