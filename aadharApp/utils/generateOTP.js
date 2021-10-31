@@ -5,6 +5,7 @@ const axios = require('axios');
 const generateOTP = async uid => {
   try {
     const txnID = uuid();
+    console.log(txnID);
     const resp = await axios.post(
       'https://stage1.uidai.gov.in/onlineekyc/getOtp/',
 
