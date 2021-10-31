@@ -13,7 +13,9 @@ const Request = props => {
         <Button
           buttonStyle={styles.button}
           title="Request Address Update"
-          onPress={alert('Address Update Request Screen')}
+          onPress={() => {
+            props.navigation.navigate('NewRequest');
+          }}
         />
       </View>
       <ForeGroundNotify />
