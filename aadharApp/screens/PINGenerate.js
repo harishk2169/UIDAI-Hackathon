@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   button: {
+    backgroundColor: 'tomato',
     width: 200,
   },
 });
